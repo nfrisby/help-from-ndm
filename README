@@ -16,7 +16,3 @@ should generate a file summary.csv, which I'm hoping resembles the included
 file expected-summary.csv.
 
 Note that in expected-summary.csv, SYB outperforms Uni.
-
-
-I suspect this is due to the "$fTraversableStr_$cmapM $fMonadKureM" being
-present in the Core for the Uni.hs when compiled with -O.
