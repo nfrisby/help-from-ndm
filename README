@@ -1,0 +1,18 @@
+$ ghc -fforce-recomp -O --make Test -main-is Test.main
+
+should build ./Test
+
+
+
+$ Ns=`ghc -e [20..25]` ACTION=validate ./Test
+
+should print "True"
+
+
+
+$ Ns=`ghc -e [20..25]` ACTION=bench ./Test
+
+should generate a file summary.csv, which I'm hoping resembles the included
+file expected-summary.csv.
+
+Note that in expected-summary.csv, SYB outperforms Uni.
