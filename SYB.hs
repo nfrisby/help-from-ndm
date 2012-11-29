@@ -8,7 +8,7 @@ import Common
 
 import Data.Generics
 
-import Control.Monad ((<=<), MonadPlus(..))
+
 
 reduce :: Fib -> Int
 reduce = (runKureM id error .) $ unLitRule <=< ev where
@@ -23,26 +23,18 @@ reduce = (runKureM id error .) $ unLitRule <=< ev where
 
 
 
-(<+) f g = \a -> f a `mplus` g a
-tryR x = x <+ return
-
-instance MonadPlus KureM where
-  mzero = fail "mzero"
-  mplus = (<<+)
-
-
-
 deriving instance Typeable Fib
 deriving instance Data Fib
 
 
 
---full :: GenericM KureM -> GenericM KureM
---full = gmapM
-
---fullTD :: GenericM KureM -> GenericM KureM
---fullTD f = full (fullTD f) <=< f
-
 fullBU :: GenericM KureM -> GenericM KureM
 fullBU = everywhereM
 
+{- static-argument transformation would benefit everywhereM
+{-# INLINE everywhereM' #-}
+everywhereM' :: GenericM KureM -> GenericM KureM
+everywhereM' f = let go :: Generic KureM
+                     go x = gmapM go x >>= f
+                 in go
+-}

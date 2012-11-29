@@ -1,4 +1,7 @@
-module Common where
+module Common (module Control.Monad, module Common) where
+
+import Control.Monad ((<=<), liftM, ap)
+import qualified Control.Monad
 
 
 data KureM a = Failure String | Success a deriving (Eq, Show)
@@ -15,6 +18,9 @@ class Monad m => MonadCatch m where
 (<<+) :: MonadCatch m => m a -> m a -> m a
 ma <<+ mb = ma `catchM` const mb
 
+(<+) f g = \a -> f a <<+ g a
+tryR x = x <+ return
+
 instance Monad KureM where
    return = Success
 
@@ -26,6 +32,13 @@ instance Monad KureM where
 instance MonadCatch KureM where
    Success a   `catchM` _ = Success a
    Failure msg `catchM` f = f msg
+
+
+instance Control.Monad.MonadPlus KureM where
+  mzero = fail "mzero"
+  mplus = (<<+)
+
+
 
 
 

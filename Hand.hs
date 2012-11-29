@@ -2,8 +2,6 @@ module Hand (reduce) where
 
 import Common
 
-import Control.Monad ((<=<), liftM, ap)
-
 
 
 reduce :: Fib -> Int
@@ -17,10 +15,6 @@ reduce = (runKureM id error .) $ unLitRule <=< ev where
 
   evfibR = fibBaseRule <+ (ev <=< fibStepRule)
 
-
-
-(<+) f g = \a -> f a <<+ g a
-tryR x = x <+ return
 
 
 
