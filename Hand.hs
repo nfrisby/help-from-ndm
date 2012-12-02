@@ -19,7 +19,7 @@ reduce = (runKureM id error .) $ unLitRule <=< ev where
 
 
 allR :: (Fib -> KureM Fib) -> Fib -> KureM Fib
-allR f (Plus a b) = Plus `liftM` f a `ap` f b
+allR f (Plus a b) = liftM2 Plus (f a) (f b)
 allR f (Fib a) = Fib `liftM` f a
 allR _ x = return x
 
