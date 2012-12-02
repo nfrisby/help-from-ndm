@@ -1,6 +1,6 @@
 module Common (module Control.Monad, module Common) where
 
-import Control.Monad ((<=<), liftM, ap)
+import Control.Monad ((<=<), liftM, ap, liftM2)
 import qualified Control.Monad
 
 
